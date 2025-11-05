@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notas - Mamoti</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        .notes-page {
+            padding-top: 100px;
+            min-height: 100vh;
+            background: #f8fafc;
+        }
+
+        .notes-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .notes-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .notes-header h1 {
+            font-size: 2.5rem;
+            color: #333;
+            margin-bottom: 1rem;
+        }
+
+        .notes-header p {
+            font-size: 1.1rem;
+            color: #666;
+        }
+
+        .note-card {
+            background: white;
+            border-radius: 12px;
+            padding: 40px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+
+        .note-meta {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 25px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #e2e8f0;
+        }
+
+        .note-author {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .author-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            font-size: 1.2rem;
+        }
+
+        .author-info h3 {
+            color: #333;
+            font-size: 1.1rem;
+            margin: 0;
+        }
+
+        .author-info p {
+            color: #666;
+            font-size: 0.9rem;
+            margin: 0;
+        }
+
+        .note-title {
+            font-size: 2rem;
+            color: #333;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+
+        .note-content {
+            color: #666;
+            line-height: 1.8;
+            font-size: 1.05rem;
+        }
+
+        .note-content h2 {
+            color: #333;
+            font-size: 1.5rem;
+            margin-top: 30px;
+            margin-bottom: 15px;
+        }
+
+        .note-content h3 {
+            color: #667eea;
+            font-size: 1.2rem;
+            margin-top: 25px;
+            margin-bottom: 12px;
+        }
+
+        .note-content ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .note-content ul li {
+            padding: 10px 0 10px 30px;
+            position: relative;
+        }
+
+        .note-content ul li::before {
+            content: "•";
+            color: #667eea;
+            font-weight: bold;
+            font-size: 1.5rem;
+            position: absolute;
+            left: 0;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+            border-left: 4px solid #667eea;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 25px 0;
+        }
+
+        .highlight-box p {
+            margin: 0;
+            color: #333;
+            font-weight: 500;
+        }
+
+        .diseases-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .disease-item {
+            background: white;
+            border: 2px solid #e2e8f0;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .disease-item:hover {
+            border-color: #667eea;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2);
+        }
+
+        .risk-types {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin: 20px 0;
+        }
+
+        .risk-tag {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-weight: 600;
+        }
+
+        .back-button {
+            display: inline-block;
+            margin-bottom: 30px;
+            padding: 12px 24px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .back-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        @media (max-width: 768px) {
+            .notes-page {
+                padding-top: 80px;
+            }
+
+            .note-card {
+                padding: 25px;
+            }
+
+            .note-title {
+                font-size: 1.6rem;
+            }
+
+            .notes-header h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="nav">
+            <div class="nav-container">
+                <div class="logo">
+                    <img src="mamuti-logo.png" alt="Mamoti Logo" class="logo-image">
+                    <h1>Mamoti</h1>
+                </div>
+                <ul class="nav-menu">
+                    <li><a href="index.html#home">Início</a></li>
+                    <li><a href="index.html#about">Sobre</a></li>
+                    <li><a href="index.html#services">Serviços</a></li>
+                    <li><a href="index.html#vision">Nossa Visão</a></li>
+                    <li><a href="index.html#reflection">Reflexões</a></li>
+                    <li><a href="notas.html">Notas</a></li>
+                    <li><a href="index.html#contact">Contato</a></li>
+                </ul>
+                <div class="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Notes Page -->
+    <div class="notes-page">
+        <div class="notes-container">
+            <a href="index.html" class="back-button">← Voltar ao Início</a>
+            
+            <div class="notes-header">
+                <h1>Comunicados Oficiais</h1>
+                <p>Plano de Ação e Gerenciamento de Riscos Ocupacionais - NR-01</p>
+            </div>
+
+            <article class="note-card">
+                <div class="note-meta">
+                    <div class="note-author">
+                        <div class="author-icon">MT</div>
+                        <div class="author-info">
+                            <h3>Diretoria Mamoti</h3>
+                            <p>Equipe: Endrio, Lucas, Leonardo e Mateus</p>
+                        </div>
+                    </div>
+                </div>
+
+                <h1 class="note-title">Implementação da NR-01 na Empresa Mamoti</h1>
+
+                <div class="note-content">
+                    <div class="highlight-box">
+                        <p><strong>Comunicado Oficial:</strong> A Mamoti inicia a implementação do Programa de Gerenciamento de Riscos (PGR) em conformidade com a NR-01 - Gerenciamento de Riscos Ocupacionais.</p>
+                    </div>
+
+                    <h2>Sobre a NR-01</h2>
+                    <p>A Norma Regulamentadora NR-01 estabelece as diretrizes e os requisitos para o Gerenciamento de Riscos Ocupacionais (GRO), que deve ser implementado por meio do Programa de Gerenciamento de Riscos (PGR) em todas as empresas. O PGR é a base documental que visa aprimorar a gestão de segurança e saúde no trabalho de forma contínua.</p>
+
+                    <h2>Relevância para a Mamoti</h2>
+                    <p>Como empresa de desenvolvimento de software e gestão de TI, a Mamoti reconhece a necessidade de identificar, avaliar e controlar todos os riscos presentes em nossas atividades, com foco especial em:</p>
+                    <ul>
+                        <li><strong>Riscos Ergonômicos (NR-17)</strong> - Relacionados à postura e equipamentos de trabalho</li>
+                        <li><strong>Riscos Psicossociais</strong> - Estresse de projetos, burnout, ansiedade e depressão</li>
+                        <li><strong>Riscos Físicos</strong> - Iluminação inadequada e fadiga visual</li>
+                        <li><strong>Riscos de Acidentes</strong> - Relacionados à infraestrutura de TI</li>
+                    </ul>
+
+                    <h2>Inventário de Riscos Identificados</h2>
+                    <p>Nosso levantamento inicial identificou os seguintes riscos ocupacionais:</p>
+
+                    <h3>1. Risco Ergonômico - Postura Inadequada</h3>
+                    <div class="highlight-box">
+                        <p><strong>Setores Afetados:</strong> Desenvolvedores Front/Back-End, Arquiteto de Software, Analista de Suporte</p>
+                        <p><strong>Fonte:</strong> Longa permanência na mesma posição (8h/dia) utilizando cadeiras e mesas sem ajustes ergonômicos.</p>
+                        <p><strong>Classificação:</strong> Risco Médio (Severidade: LER/DORT; Probabilidade: Alta)</p>
+                    </div>
+
+                    <h3>2. Risco Psicossocial - Sobrecarga de Trabalho</h3>
+                    <div class="highlight-box">
+                        <p><strong>Setores Afetados:</strong> Gerente de Projetos, Desenvolvedores, Engenheiro de DevOps</p>
+                        <p><strong>Fonte:</strong> Cultura de sprints agressivas e requisitos que demandam horas extras não planejadas e pressão de entrega.</p>
+                        <p><strong>Classificação:</strong> Risco Alto (Severidade: Burnout, Transtorno de Ansiedade; Probabilidade: Média)</p>
+                    </div>
+
+                    <h3>3. Risco de Acidente - Queda e Choque Elétrico</h3>
+                    <div class="highlight-box">
+                        <p><strong>Setores Afetados:</strong> Engenheiro de DevOps, Nível Gerencial e Estratégico</p>
+                        <p><strong>Fonte:</strong> Manuseio de servidores ou infraestrutura de TI, uso de equipamentos não inspecionados.</p>
+                        <p><strong>Classificação:</strong> Risco Baixo (Severidade: Grave; Probabilidade: Baixa)</p>
+                    </div>
+
+                    <h3>4. Risco Físico - Iluminação Inadequada</h3>
+                    <div class="highlight-box">
+                        <p><strong>Setores Afetados:</strong> Todos os Desenvolvedores, Gerentes</p>
+                        <p><strong>Fonte:</strong> Iluminação insuficiente ou excessiva no posto de trabalho, causando fadiga visual.</p>
+                        <p><strong>Classificação:</strong> Risco Médio (Severidade: Agravo à saúde visual; Probabilidade: Média)</p>
+                    </div>
+
+                    <h2>Plano de Implantação da NR-01</h2>
+                    <p>A implantação do PGR seguirá o ciclo PDCA (Planejar, Fazer, Checar, Agir):</p>
+
+                    <h3>Fase 1: Elaboração do PGR</h3>
+                    <ul>
+                        <li><strong>Constituição do GRO:</strong> O CEO assume a responsabilidade máxima pela implementação</li>
+                        <li><strong>Identificação de Perigos:</strong> Mapeamento completo de todos os setores e funções</li>
+                        <li><strong>Avaliação de Riscos:</strong> Classificação por Probabilidade x Severidade</li>
+                        <li><strong>Plano de Ação:</strong> Medidas preventivas, cronograma e responsáveis definidos</li>
+                    </ul>
+
+                    <h3>Fase 2: Implementação das Medidas</h3>
+                    <ul>
+                        <li><strong>Medidas de Controle:</strong> Aquisição de cadeiras ergonômicas, mesas ajustáveis e iluminação adequada</li>
+                        <li><strong>Treinamento Admissional:</strong> Todo novo colaborador receberá treinamento sobre riscos e prevenção</li>
+                        <li><strong>Treinamento Periódico:</strong> Programas de Ergonomia (NR-17) e Saúde Mental para toda a equipe</li>
+                        <li><strong>Ordem de Serviço (OS):</strong> Documento informando riscos e procedimentos para cada função</li>
+                    </ul>
+
+                    <h3>Fase 3: Monitoramento e Análise</h3>
+                    <ul>
+                        <li><strong>Monitoramento da Eficácia:</strong> Avaliação contínua das medidas implementadas</li>
+                        <li><strong>Análise de Afastamentos:</strong> Investigação de casos de LER/DORT e doenças psicossociais</li>
+                        <li><strong>Indicadores de Desempenho:</strong> Acompanhamento de KPIs relacionados à saúde ocupacional</li>
+                        <li><strong>Questionários Periódicos:</strong> Monitoramento de casos frequentes e identificação de padrões</li>
+                    </ul>
+
+                    <h3>Fase 4: Revisão e Melhoria Contínua</h3>
+                    <ul>
+                        <li><strong>Revisão Bienal:</strong> Atualização do PGR a cada dois anos, no mínimo</li>
+                        <li><strong>Revisão por Mudanças:</strong> Atualização sempre que houver alterações tecnológicas ou organizacionais</li>
+                        <li><strong>Ações Corretivas:</strong> Implementação de melhorias baseadas nos resultados do monitoramento</li>
+                    </ul>
+
+                    <h2>Contexto de Saúde Mental no Trabalho</h2>
+                    <p>De acordo com dados recentes, aproximadamente <strong>1 bilhão de pessoas no mundo</strong> sofrem com transtornos mentais relacionados ao trabalho. As principais doenças identificadas são:</p>
+                    
+                    <div class="diseases-list">
+                        <div class="disease-item">Ansiedade</div>
+                        <div class="disease-item">Depressão</div>
+                        <div class="disease-item">Burnout</div>
+                        <div class="disease-item">Síndrome do Pânico</div>
+                        <div class="disease-item">Transtornos Comportamentais</div>
+                        <div class="disease-item">Demências e Delírios</div>
+                    </div>
+
+                    <h2>Tipos de Riscos Gerenciados</h2>
+                    <div class="risk-types">
+                        <span class="risk-tag">Organizacional</span>
+                        <span class="risk-tag">Social</span>
+                        <span class="risk-tag">Da Atividade</span>
+                        <span class="risk-tag">Ergonômico</span>
+                        <span class="risk-tag">Psicossocial</span>
+                        <span class="risk-tag">Físico</span>
+                    </div>
+
+                    <h2>Responsabilidades e Comprometimento</h2>
+                    <div class="highlight-box">
+                        <p><strong>Compromisso da Diretoria:</strong> A Mamoti está comprometida em criar um ambiente de trabalho seguro, saudável e que promova o bem-estar de todos os colaboradores. Reconhecemos que cada pessoa pode ter percepções diferentes sobre o que é exaustivo, e por isso nossa abordagem será personalizada e inclusiva.</p>
+                    </div>
+
+                    <h2>Cronograma de Implementação</h2>
+                    <ul>
+                        <li><strong>Novembro/2025:</strong> Aprovação do PGR e início da aquisição de equipamentos ergonômicos</li>
+                        <li><strong>Dezembro/2025:</strong> Treinamentos iniciais e distribuição das Ordens de Serviço</li>
+                        <li><strong>Janeiro/2026:</strong> Implementação completa das medidas de controle</li>
+                        <li><strong>Fevereiro/2026:</strong> Início do monitoramento sistemático</li>
+                        <li><strong>Contínuo:</strong> Revisão e ajustes conforme necessário</li>
+                    </ul>
+
+                    <h2>Conscientização e Cultura</h2>
+                    <div class="highlight-box">
+                        <p>É fundamental que todos os colaboradores compreendam a importância da saúde ocupacional. A saúde mental não deve ser vista como tabu, mas como um pilar essencial do nosso sucesso coletivo. Juntos, construiremos uma cultura organizacional mais saudável e sustentável.</p>
+                    </div>
+
+                    <p style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #e2e8f0; font-style: italic; color: #666;">
+                        Para dúvidas, sugestões ou mais informações sobre a implementação da NR-01 na Mamoti, <a href="index.html#contact" style="color: #667eea; font-weight: 600;">entre em contato com a equipe de Gestão de Pessoas</a>.
+                    </p>
+
+                    <p style="text-align: center; margin-top: 30px; font-weight: 600; color: #333;">
+                        Atenciosamente,<br>
+                        Equipe de Implementação NR-01<br>
+                        Endrio, Lucas, Leonardo e Mateus<br>
+                        Mamoti - Governança e Gestão de TI
+                    </p>
+                </div>
+            </article>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="footer-logo">
+                        <img src="mamuti-logo.png" alt="Mamoti Logo" class="footer-logo-image">
+                        <h3>Mamoti</h3>
+                    </div>
+                    <p>Transformando a gestão de TI com soluções inovadoras e personalizadas.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Serviços</h4>
+                    <ul>
+                        <li>Desenvolvimento de Software</li>
+                        <li>Sistemas de Monitoramento</li>
+                        <li>Gestão de TI</li>
+                        <li>Consultoria Técnica</li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contato</h4>
+                    <ul>
+                        <li>contato@mamoti.com.br</li>
+                        <li>+55 (11) 9999-9999</li>
+                        <li>São Paulo, SP</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Mamoti. Todos os direitos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
